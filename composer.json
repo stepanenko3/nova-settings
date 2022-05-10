@@ -1,0 +1,41 @@
+{
+    "name": "stepanenko3/nova-settings",
+    "description": "This Laravel Nova settings tool based on env, using nativ nova fields and resources",
+    "keywords": [
+      "laravel",
+      "nova",
+      "settings"
+    ],
+    "license": "MIT",
+    "require": {
+        "php": ">=8.0",
+        "laravel/nova": "^4.0",
+        "spatie/laravel-activitylog": "^4.4.0"
+    },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../nova"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Stepanenko3\\NovaSettings\\": "src/"
+        },
+        "files": [
+            "src/helpers.php"
+        ]
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Stepanenko3\\NovaSettings\\ToolServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
