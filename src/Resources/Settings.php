@@ -132,11 +132,7 @@ class Settings extends Resource
                         ->ignore($request->resourceId)
                 ]),
 
-            Select::make(__('Env'), 'env')
-                ->options([
-                    'local' => 'local',
-                    'production' => 'prod',
-                ])
+            Text::make(__('Env'), 'env')
                 ->rules('required'),
 
             Select::make(__('Type'), 'type')
