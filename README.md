@@ -13,7 +13,7 @@
 ## Features
 -
 -->
-<!-- ![screenshot of the command runner tool](screenshots/tool.png) -->
+![screenshot of the settings tool](screenshots/tool.png)
 
 ## Installation
 
