@@ -144,8 +144,9 @@ class Settings extends \Stepanenko3\NovaSettings\Resources\Settings
         ]);
     }
 }
-
 ```
+
+In config file set `'resource' => \App\Nova\Settings::class,`
 
 <!--
 ### Screenshots
