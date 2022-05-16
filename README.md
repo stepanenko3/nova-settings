@@ -148,6 +148,8 @@ class Settings extends \Stepanenko3\NovaSettings\Resources\Settings
 
 In config file set `'resource' => \App\Nova\Settings::class,`
 
+Don't forget to create `App\Nova\ActivityLog`
+
 <!--
 ### Screenshots
 ![screenshot of the command runner tool](screenshots/tool.png)
