@@ -123,6 +123,30 @@ settings('demo', 'key', 'defaultValue', config('app.env'))
 ## Configuration
 All the configuration is managed from a single configuration file located in `config/nova-settings.php`
 
+## Show ActivityLog in Nova resource
+
+Create your own resource that will extends `\Stepanenko3\NovaSettings\Resources\Settings`
+
+``` php
+<?php
+
+namespace App\Nova;
+
+use Illuminate\Http\Request;
+use Laravel\Nova\Fields\HasMany;
+
+class Settings extends \Stepanenko3\NovaSettings\Resources\Settings
+{
+    public function fields(Request $request)
+    {
+        return array_merge(parent::fields($request), [
+            HasMany::make('Activities', 'activities', 'App\Nova\ActivityLog'),
+        ]);
+    }
+}
+
+```
+
 <!--
 ### Screenshots
 ![screenshot of the command runner tool](screenshots/tool.png)
