@@ -9,10 +9,17 @@
 - `php: >=8.0`
 - `laravel/nova: ^4.0`
 
-<!--
+
 ## Features
--
--->
+
+- Using native Nova resources
+- Fully responsive
+- Dark mode support
+- Support all packages like nova-tabs
+- Different settings depending on the current Env
+- Separation of settings into different classes
+- Customizable model and resource
+
 ![screenshot of the settings tool](screenshots/tool.png)
 
 ## Installation
