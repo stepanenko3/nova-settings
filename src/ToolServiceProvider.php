@@ -17,13 +17,13 @@ class ToolServiceProvider extends ServiceProvider
     {
         $this->config();
 
-        // Load migrations
-        if (config('nova-settings.auto_load_migrations', true)) {
-            $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
-        }
+        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
 
         // Publish data
-        $this->publishes([__DIR__ . '/../database/migrations' => database_path('migrations')], 'nova-settings-migrations');
+            // Publish migrations
+            $this->publishes([
+                __DIR__ . '/../database/migrations' => database_path('migrations'),
+            ], 'migrations');
 
         $this->app->booted(function () {
             config('nova-settings.model')::saving(function ($model) {
