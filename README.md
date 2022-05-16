@@ -15,7 +15,7 @@
 - Using native Nova resources
 - Fully responsive
 - Dark mode support
-- Support all packages like nova-tabs
+- Support all packages. Like nova-tabs, activity-log, etc.
 - Different settings depending on the current Env
 - Separation of settings into different classes
 - Customizable model and resource
