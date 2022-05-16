@@ -110,6 +110,8 @@ Publish the migration file:
 php artisan vendor:publish --provider="Stepanenko3\NovaSettings\ToolServiceProvider" --tag="migrations"
 ```
 
+And run `php artisan migrate`
+
 ## Usage
 
 Click on the `"Settings"` menu item in your Nova app to see the tool.
