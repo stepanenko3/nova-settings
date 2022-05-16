@@ -9,7 +9,6 @@
 - `php: >=8.0`
 - `laravel/nova: ^4.0`
 
-
 ## Features
 
 - Using native Nova resources
@@ -20,7 +19,7 @@
 - Separation of settings into different classes
 - Customizable model and resource
 
-![screenshot of the settings tool](screenshots/tool.png)
+![screenshot of tool](screenshots/tool.png)
 
 ## Installation
 
@@ -159,24 +158,12 @@ In config file set `'resource' => \App\Nova\Settings::class,`
 
 Don't forget to create `App\Nova\ActivityLog`
 
-<!--
 ### Screenshots
-![screenshot of the command runner tool](screenshots/tool.png)
 
-![screenshot of the command runner tool](screenshots/dark-mode.png)
-
-![screenshot of the command runner tool](screenshots/mobile.png)
-
-![screenshot of the command runner tool](screenshots/confirmation.png)
-
-![screenshot of the command runner tool](screenshots/variable-input.png)
-
-![screenshot of the command runner tool](screenshots/select-variable.png)
-
-![screenshot of the command runner tool](screenshots/command-with-optional-flag.png)
--->
+![screenshot of tool](screenshots/tool-dark.png)
 
 ## Credits
+
 - [Artem Stepanenko](https://github.com/stepanenko3)
 
 ## Contributing
@@ -186,5 +173,3 @@ Thank you for considering contributing to this package! Please create a pull req
 ## License
 
 This package is open-sourced software licensed under the [MIT license](LICENSE.md).
-
-
