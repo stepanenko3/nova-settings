@@ -1,13 +1,14 @@
-# Settings management Tool for Nova
+# Nova Settings
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/stepanenko3/nova-settings.svg?style=flat-square)](https://packagist.org/packages/stepanenko3/nova-settings)
 [![Total Downloads](https://img.shields.io/packagist/dt/stepanenko3/nova-settings.svg?style=flat-square)](https://packagist.org/packages/stepanenko3/nova-settings)
 [![License](https://poser.pugx.org/stepanenko3/nova-settings/license)](https://packagist.org/packages/stepanenko3/nova-settings)
 
-## Requirements
+![screenshot of tool](screenshots/tool.png)
 
-- `php: >=8.0`
-- `laravel/nova: ^4.0`
+## Description
+
+Settings management Tool for Nova
 
 ## Features
 
@@ -19,7 +20,10 @@
 - Separation of settings into different classes
 - Customizable model and resource
 
-![screenshot of tool](screenshots/tool.png)
+## Requirements
+
+- `php: >=8.0`
+- `laravel/nova: ^4.0`
 
 ## Installation
 
