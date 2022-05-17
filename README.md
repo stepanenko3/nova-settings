@@ -23,9 +23,8 @@
 
 ## Installation
 
-You can install the nova tool in to a Laravel app that uses [Nova](https://nova.laravel.com) via composer:
-
 ```bash
+# Install the package
 composer require stepanenko3/nova-settings
 ```
 
