@@ -8,7 +8,7 @@
 
 ## Description
 
-Settings management Tool for Nova
+This Laravel Nova settings tool based on env, using nativ nova fields and resources
 
 ## Features
 
