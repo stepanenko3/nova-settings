@@ -29,6 +29,20 @@ You can install the nova tool in to a Laravel app that uses [Nova](https://nova.
 composer require stepanenko3/nova-settings
 ```
 
+Publish the config file:
+
+``` bash
+php artisan vendor:publish --provider="Stepanenko3\NovaSettings\ToolServiceProvider" --tag="config"
+```
+
+Publish the migration file:
+
+``` bash
+php artisan vendor:publish --provider="Stepanenko3\NovaSettings\ToolServiceProvider" --tag="migrations"
+```
+
+And run `php artisan migrate`
+
 Next up, you must register the tool with Nova. This is typically done in the `tools` method of the `NovaServiceProvider`.
 
 ```php
@@ -45,9 +59,10 @@ public function tools()
 }
 ```
 
-Create your own configuration classes in folder app/Nova/Settings
+Create your own configuration classes in app/Nova/Settings
 ```php
 // in app/Nova/Settings/Demo.php
+
 <?php
 
 namespace App\Nova\Settings;
@@ -88,13 +103,7 @@ class Demo extends AbstractType
 }
 ```
 
-Publish the config file:
-
-``` bash
-php artisan vendor:publish --provider="Stepanenko3\NovaSettings\ToolServiceProvider" --tag="config"
-```
-
-Add your settings to `config/nova-settings.php`
+Delcare your settings class in `config/nova-settings.php`
 ``` php
 <?php
 
@@ -109,15 +118,6 @@ return [
 ];
 ```
 
-
-Publish the migration file:
-
-``` bash
-php artisan vendor:publish --provider="Stepanenko3\NovaSettings\ToolServiceProvider" --tag="migrations"
-```
-
-And run `php artisan migrate`
-
 ## Usage
 
 Click on the `"Settings"` menu item in your Nova app to see the tool.
@@ -129,13 +129,45 @@ settings('demo', 'key', 'defaultValue', config('app.env'))
 ```
 
 ## Configuration
+
 All the configuration is managed from a single configuration file located in `config/nova-settings.php`
 
-## Show ActivityLog in Nova resource
+### Extends default model
+
+Create your own model that will extends `\Stepanenko3\NovaSettings\Models\Settings`
+
+```php
+// in app/Models/Settings.php
+
+<?php
+
+namespace App\Models;
+
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
+
+class Settings extends \Stepanenko3\NovaSettings\Models\Settings
+{
+    use LogsActivity;
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logFillable()
+            ->logOnlyDirty();
+    }
+}
+```
+
+Declare your model `'model' => \App\Models\Settings::class,` in `config/nova-settings.php`
+
+## Extends default Nova resource
 
 Create your own resource that will extends `\Stepanenko3\NovaSettings\Resources\Settings`
 
 ``` php
+// in app/Nova/Settings.php
+
 <?php
 
 namespace App\Nova;
@@ -154,7 +186,7 @@ class Settings extends \Stepanenko3\NovaSettings\Resources\Settings
 }
 ```
 
-In config file set `'resource' => \App\Nova\Settings::class,`
+Declare your resource `'resource' => \App\Nova\Settings::class,` in `config/nova-settings.php`
 
 Don't forget to create `App\Nova\ActivityLog`
 
