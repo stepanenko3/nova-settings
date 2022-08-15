@@ -16,14 +16,16 @@ if (!function_exists('settings')) {
     {
         if (!$env) $env = config('app.env');
 
-        $settings = Cache::remember('settings.' . $env, config('cache.lifetime'), function() use ($section, $env) {
-            return config('nova-settings.model')::query()
+        $settings = Cache::remember(
+            'settings.' . $section . '.' . $env,
+            config('cache.lifetime'),
+            fn () => config('nova-settings.model')::query()
                 ->select('settings')
                 ->where('slug', $section)
                 ->where('env', $env)
                 ->first()
-                ->settings ?? [];
-        });
+                ->settings ?? [],
+        );
 
         return $key === null
             ? $settings

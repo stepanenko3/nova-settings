@@ -5,6 +5,10 @@ namespace Stepanenko3\NovaSettings;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Nova\Events\ServingNova;
 use Laravel\Nova\Nova;
+use Illuminate\Support\Facades\Event;
+use Stepanenko3\NovaSettings\Events\SettingsUpdated;
+use Stepanenko3\NovaSettings\Events\SettingsDeleted;
+use Illuminate\Support\Facades\Cache;
 
 class ToolServiceProvider extends ServiceProvider
 {
@@ -20,10 +24,10 @@ class ToolServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
 
         // Publish data
-            // Publish migrations
-            $this->publishes([
-                __DIR__ . '/../database/migrations' => database_path('migrations'),
-            ], 'migrations');
+        // Publish migrations
+        $this->publishes([
+            __DIR__ . '/../database/migrations' => database_path('migrations'),
+        ], 'migrations');
 
         $this->app->booted(function () {
             config('nova-settings.model')::saving(function ($model) {
@@ -38,6 +42,16 @@ class ToolServiceProvider extends ServiceProvider
         Nova::serving(function (ServingNova $event) {
             //
         });
+
+        Event::listen(
+            [
+                SettingsUpdated::class,
+                SettingsDeleted::class,
+            ],
+            function (SettingsUpdated $event) {
+                Cache::forget('settings.' . $event->model->slug . '.' . $event->model->env);
+            },
+        );
     }
 
     /**
