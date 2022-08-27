@@ -3,7 +3,7 @@
 namespace Stepanenko3\NovaSettings;
 
 use Illuminate\Http\Request;
-use Laravel\Nova\Menu\MenuItem;
+use Laravel\Nova\Menu\MenuSection;
 use Laravel\Nova\Tool;
 use Stepanenko3\NovaSettings\Resources\Settings;
 
@@ -25,6 +25,7 @@ class NovaSettingsTool extends Tool
      */
     public function menu(Request $request)
     {
-        return MenuItem::resource(Settings::class);
+        return MenuSection::resource(Settings::class)
+            ->icon('cog');
     }
 }
