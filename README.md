@@ -63,6 +63,34 @@ public function tools()
 ```
 
 Create your own configuration classes in app/Nova/Settings
+
+```php
+// in app/Nova/Settings/Demo.php
+
+<?php
+
+namespace App\Nova\Settings;
+
+use Laravel\Nova\Fields\Boolean;
+use Stepanenko3\NovaSettings\Types\AbstractType;
+
+class Demo extends AbstractType
+{
+    public function fields(): array
+    {
+        return [
+            Boolean::make('Param 1', 'param_1'),
+            Boolean::make('Param 2', 'param_2'),
+            Boolean::make('Param 3', 'param_3'),
+        ];
+    }
+}
+```
+
+If you want to use eminiarts/nova-tabs
+
+`composer require eminiarts/nova-tabs`
+
 ```php
 // in app/Nova/Settings/Demo.php
 
@@ -107,6 +135,7 @@ class Demo extends AbstractType
 ```
 
 Delcare your settings class in `config/nova-settings.php`
+
 ``` php
 <?php
 
