@@ -87,6 +87,8 @@ class Demo extends AbstractType
 }
 ```
 
+### With Tabs
+
 If you want to use eminiarts/nova-tabs
 
 `composer require eminiarts/nova-tabs`
