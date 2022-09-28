@@ -162,6 +162,30 @@ Use helper function for access the settings
 settings('demo', 'key', 'defaultValue', config('app.env'))
 ```
 
+Get `cart_link` value from `General` settings in current Env
+```php
+settings('general', 'cart_link')
+```
+
+Get all `General` settings
+```php
+settings('general')
+```
+
+Get `cart_link` value from `General` settings in specific Env with default value
+```php
+settings(
+    section: 'general',
+    key: 'cart_link',
+    default: true,
+    env: 'production'
+);
+
+// OR
+
+settings('general', 'cart_link', true, 'production');
+```
+
 ## Configuration
 
 All the configuration is managed from a single configuration file located in `config/nova-settings.php`
