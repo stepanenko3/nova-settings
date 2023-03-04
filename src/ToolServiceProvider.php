@@ -3,7 +3,6 @@
 namespace Stepanenko3\NovaSettings;
 
 use Illuminate\Support\ServiceProvider;
-use Laravel\Nova\Events\ServingNova;
 use Laravel\Nova\Nova;
 use Illuminate\Support\Facades\Event;
 use Stepanenko3\NovaSettings\Events\SettingsUpdated;
@@ -30,17 +29,9 @@ class ToolServiceProvider extends ServiceProvider
         ], 'migrations');
 
         $this->app->booted(function () {
-            config('nova-settings.model')::saving(function ($model) {
-                //
-            });
-
             Nova::resources([
                 config('nova-settings.resource'),
             ]);
-        });
-
-        Nova::serving(function (ServingNova $event) {
-            //
         });
 
         Event::listen(
@@ -48,20 +39,10 @@ class ToolServiceProvider extends ServiceProvider
                 SettingsUpdated::class,
                 SettingsDeleted::class,
             ],
-            function (SettingsUpdated $event) {
+            function (SettingsUpdated | SettingsDeleted $event) {
                 Cache::forget('settings.' . $event->model->slug . '.' . $event->model->env);
             },
         );
-    }
-
-    /**
-     * Register any application services.
-     *
-     * @return void
-     */
-    public function register()
-    {
-        //
     }
 
     private function config()
