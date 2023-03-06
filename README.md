@@ -248,6 +248,30 @@ Declare your resource `'resource' => \App\Nova\Settings::class,` in `config/nova
 
 Don't forget to create `App\Nova\ActivityLog`
 
+## Using dependsOn with out package
+
+Use the `settings->` prefix in the `attribute` parameter of the `dependsOn` method.
+It is also necessary to get data from `FormData` with `settings->` prefix
+
+``` php
+Select::make('Purchase Type', 'type')
+    ->options([
+        'personal' => 'Personal',
+        'gift' => 'Gift',
+    ]),
+
+Text::make('Recipient')
+    ->readonly()
+    ->dependsOn(
+        ['settings->type'],
+        function (Text $field, NovaRequest $request, FormData $formData) {
+            if ($formData->{'settings->type'} === 'gift') {
+                $field->readonly(false)->rules(['required', 'email']);
+            }
+        }
+    ),
+```
+
 ### Screenshots
 
 ![screenshot of tool](screenshots/tool-dark.png)
