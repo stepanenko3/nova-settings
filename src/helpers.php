@@ -12,14 +12,18 @@ if (!function_exists('settings')) {
      * @param  string|null $env
      * @return string
      */
-    function settings(string|null $section, string|null $key = null, string|null $default = null, string|null $env = null)
-    {
+    function settings(
+        string|null $section,
+        string|null $key = null,
+        string|null $default = null,
+        string|null $env = null,
+    ) {
         if (!$env) $env = config('app.env');
 
         $settings = Cache::remember(
-            'settings.' . $section . '.' . $env,
-            config('cache.lifetime'),
-            fn () => config('nova-settings.model')::query()
+            key: 'settings.' . $section . '.' . $env,
+            ttl: config('cache.lifetime'),
+            callback: fn () => config('nova-settings.model')::query()
                 ->select('settings')
                 ->where('slug', $section)
                 ->where('env', $env)
@@ -27,8 +31,20 @@ if (!function_exists('settings')) {
                 ->settings ?? [],
         );
 
-        return $key === null
-            ? $settings
-            : $settings[$key] ?? $default ?? null;
+        if ($key === null) {
+            return $settings;
+        }
+
+        $key = str_ireplace(
+            search: '->',
+            replace: '.',
+            subject: $key,
+        );
+
+        return data_get(
+            target: $settings,
+            key: $key,
+            default: $default,
+        );
     }
 }
