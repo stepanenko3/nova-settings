@@ -26,7 +26,7 @@ class Settings extends Resource
      *
      * @var string
      */
-    public static $title = 'name';
+    public static $title = 'slug';
 
     /**
      * The columns that should be searched.
@@ -34,7 +34,7 @@ class Settings extends Resource
      * @var array
      */
     public static $search = [
-        'name',
+        'slug',
     ];
 
     public static $globallySearchable = true;
