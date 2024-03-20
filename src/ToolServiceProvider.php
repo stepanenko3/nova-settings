@@ -11,12 +11,7 @@ use Illuminate\Support\Facades\Cache;
 
 class ToolServiceProvider extends ServiceProvider
 {
-    /**
-     * Bootstrap any application services.
-     *
-     * @return void
-     */
-    public function boot()
+    public function boot(): void
     {
         $this->config();
 
@@ -28,7 +23,7 @@ class ToolServiceProvider extends ServiceProvider
             __DIR__ . '/../database/migrations' => database_path('migrations'),
         ], 'migrations');
 
-        $this->app->booted(function () {
+        $this->app->booted(function (): void {
             Nova::resources([
                 config('nova-settings.resource'),
             ]);
@@ -39,13 +34,13 @@ class ToolServiceProvider extends ServiceProvider
                 SettingsUpdated::class,
                 SettingsDeleted::class,
             ],
-            function (SettingsUpdated | SettingsDeleted $event) {
+            function (SettingsUpdated | SettingsDeleted $event): void {
                 Cache::forget('settings.' . $event->model->slug . '.' . $event->model->env);
             },
         );
     }
 
-    private function config()
+    private function config(): void
     {
         if ($this->app->runningInConsole()) {
             // Publish config

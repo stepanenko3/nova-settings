@@ -1,4 +1,5 @@
 <?php
+
 namespace Stepanenko3\NovaSettings\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -24,11 +25,6 @@ class Settings extends Model
         'settings',
     ];
 
-    /**
-     * The event map for the model.
-     *
-     * @var array
-     */
     protected $dispatchesEvents = [
         'saved' => SettingsUpdated::class,
         'deleted' => SettingsDeleted::class,
