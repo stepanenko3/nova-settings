@@ -1,4 +1,5 @@
 <?php
+
 namespace Stepanenko3\NovaSettings\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -11,11 +12,6 @@ class Settings extends Model
 {
     use LogsActivity;
 
-    protected $casts = [
-        'fields' => 'array',
-        'settings' => 'array',
-    ];
-
     protected $fillable = [
         'slug',
         'env',
@@ -24,11 +20,6 @@ class Settings extends Model
         'settings',
     ];
 
-    /**
-     * The event map for the model.
-     *
-     * @var array
-     */
     protected $dispatchesEvents = [
         'saved' => SettingsUpdated::class,
         'deleted' => SettingsDeleted::class,
@@ -39,5 +30,13 @@ class Settings extends Model
         return LogOptions::defaults()
             ->logFillable()
             ->logOnlyDirty();
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'fields' => 'array',
+            'settings' => 'array',
+        ];
     }
 }

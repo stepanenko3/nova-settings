@@ -9,22 +9,14 @@ use Stepanenko3\NovaSettings\Resources\Settings;
 
 class NovaSettingsTool extends Tool
 {
-    /**
-     * Perform any tasks that need to happen when the tool is booted.
-     */
-    public function boot()
+    public function boot(): void
     {
+        //
     }
 
-    /**
-     * Build the menu that renders the navigation links for the tool.
-     *
-     * @param \Illuminate\Http\Request $request
-     *
-     * @return mixed
-     */
-    public function menu(Request $request)
-    {
+    public function menu(
+        Request $request,
+    ) {
         return MenuSection::resource(Settings::class)
             ->icon('cog');
     }

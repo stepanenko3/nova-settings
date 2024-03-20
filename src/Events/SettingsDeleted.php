@@ -8,12 +8,12 @@ use Stepanenko3\NovaSettings\Models\Settings;
 
 class SettingsDeleted
 {
-    use Dispatchable, SerializesModels;
+    use Dispatchable;
+    use SerializesModels;
 
-    public $model;
-
-    public function __construct(Settings $model)
-    {
-        $this->model = $model;
+    public function __construct(
+        public Settings $model,
+    ) {
+        //
     }
 }

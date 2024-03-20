@@ -2,6 +2,7 @@
 
 namespace Stepanenko3\NovaSettings\Resources;
 
+use Illuminate\Database\Query\Builder;
 use Stepanenko3\NovaSettings\Types\AbstractType;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -9,73 +10,40 @@ use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 use Laravel\Nova\Resource;
+use ReflectionClass;
 
 class Settings extends Resource
 {
-    /**
-     * The model the resource corresponds to.
-     *
-     * @var string
-     */
     public static $model;
 
-    /**
-     * The single value that should be used to represent the resource when being displayed.
-     *
-     * @var string
-     */
     public static $title = 'slug';
 
-    /**
-     * The columns that should be searched.
-     *
-     * @var array
-     */
     public static $search = [
         'slug',
     ];
 
     public static $globallySearchable = true;
 
-    /**
-     * Hide resource from Nova's standard menu.
-     *
-     * @var bool
-     */
     public static $displayInNavigation = true;
 
-    public static function group()
+    public static function group(): string
     {
         return __('Settings');
     }
 
-    /**
-     * Label for display.
-     *
-     * @return string
-     */
-    public static function label()
+    public static function label(): string
     {
         return __('Settings');
     }
 
-    /**
-     * Get the displayable singular label of the resource.
-     *
-     * @return string
-     */
-    public static function singularLabel()
+    public static function singularLabel(): string
     {
         return __('Settings');
     }
 
-    /**
-     * Get a fresh instance of the model represented by the resource.
-     *
-     * @return mixed
-     */
     public static function newModel()
     {
         self::$model =  config('nova-settings.model');
@@ -83,28 +51,54 @@ class Settings extends Resource
         return new self::$model();
     }
 
-    /**
-     * Get the fields displayed by the resource.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
-    public function fields(Request $request)
-    {
+    public function fields(
+        Request $request,
+    ): array {
         $fields = [];
+
         if ($this->type && class_exists($this->type)) {
-            $fields = (new $this->type)->getFields('settings');
+            $fields = (new $this->type())->getFields('settings');
         }
 
         return [
-            ...$this->main($request),
+            ...$this->main(
+                request: $request,
+            ),
             ...$fields,
-            new Panel('Data', $this->data()),
+            new Panel(
+                name: 'Data',
+                fields: $this->data(),
+            ),
         ];
     }
 
-    protected function main(Request $request)
-    {
+    public function cards(
+        Request $request,
+    ): array {
+        return [];
+    }
+
+    public function filters(
+        Request $request,
+    ): array {
+        return [];
+    }
+
+    public function lenses(
+        Request $request,
+    ): array {
+        return [];
+    }
+
+    public function actions(
+        Request $request,
+    ): array {
+        return [];
+    }
+
+    protected function main(
+        Request $request,
+    ): array {
         return [
             ID::make(__('ID'), 'id')
                 ->sortable(),
@@ -114,7 +108,7 @@ class Settings extends Resource
                     'required',
                     'max:255',
                     Rule::unique('settings', 'slug')
-                        ->where(function ($query) use ($request) {
+                        ->where(function (Builder $query) use ($request) {
                             return $query
                                 ->where('env', $request->env)
                                 ->where('type', $request->type);
@@ -124,21 +118,29 @@ class Settings extends Resource
                     'required',
                     'max:255',
                     Rule::unique('settings', 'slug')
-                        ->where(function ($query) use ($request) {
+                        ->where(function (Builder $query) use ($request) {
                             return $query
                                 ->where('env', $request->env)
                                 ->where('type', $request->type ?: $this->type);
                         })
-                        ->ignore($request->resourceId)
+                        ->ignore($request->resourceId),
                 ]),
 
             Text::make(__('Env'), 'env')
-                ->rules('required'),
+                ->rules([
+                    'required',
+                ]),
 
             Select::make(__('Type'), 'type')
-                ->options($this->getClasses()->toArray())
-                ->readonly(fn ($request) => $request->isUpdateOrUpdateAttachedRequest())
-                ->rules('required'),
+                ->options(
+                    $this->getClasses()->toArray(),
+                )
+                ->readonly(
+                    fn (NovaRequest $request) => $request->isUpdateOrUpdateAttachedRequest(),
+                )
+                ->rules([
+                    'required',
+                ]),
         ];
     }
 
@@ -158,63 +160,22 @@ class Settings extends Resource
     {
         return collect(config('nova-settings.types'))
             ->filter(function ($class) {
-                if (!class_exists($class))
+                if (!class_exists($class)) {
                     return false;
+                }
 
-                $reflection = new \ReflectionClass($class);
+                $reflection = new ReflectionClass($class);
 
-                return $reflection->isSubclassOf(AbstractType::class) &&
-                    !$reflection->isAbstract();
+                return $reflection->isSubclassOf(AbstractType::class)
+                    && !$reflection->isAbstract();
             })
             ->mapWithKeys(function ($class) {
                 $parts = explode('\\', $class);
                 $className = end($parts);
 
-                return [$class => $className];
+                return [
+                    $class => $className,
+                ];
             });
-    }
-
-    /**
-     * Get the cards available for the request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
-    public function cards(Request $request)
-    {
-        return [];
-    }
-
-    /**
-     * Get the filters available for the resource.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
-    public function filters(Request $request)
-    {
-        return [];
-    }
-
-    /**
-     * Get the lenses available for the resource.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
-    public function lenses(Request $request)
-    {
-        return [];
-    }
-
-    /**
-     * Get the actions available for the resource.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
-    public function actions(Request $request)
-    {
-        return [];
     }
 }

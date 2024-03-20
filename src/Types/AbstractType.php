@@ -8,20 +8,29 @@ abstract class AbstractType
 {
     abstract public function fields(): array;
 
-    public function getFields($attribute)
-    {
+    public function getFields(
+        string $attribute,
+    ) {
         $fields = $this->fields();
 
-        $this->prepareFields($fields, $attribute);
+        $this->prepareFields(
+            fields: $fields,
+            attribute: $attribute,
+        );
 
         return $fields;
     }
 
-    public function prepareFields(&$fields, $attribute)
-    {
-        foreach($fields as &$field) {
+    public function prepareFields(
+        array &$fields,
+        string $attribute,
+    ): void {
+        foreach ($fields as &$field) {
             if ($field instanceof Panel) {
-                $this->prepareFields($field->data, $attribute);
+                $this->prepareFields(
+                    $field->data,
+                    $attribute,
+                );
             } else {
                 $field->attribute = "{$attribute}->{$field->attribute}";
                 $field->hideFromIndex();
