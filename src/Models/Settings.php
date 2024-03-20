@@ -12,11 +12,6 @@ class Settings extends Model
 {
     use LogsActivity;
 
-    protected $casts = [
-        'fields' => 'array',
-        'settings' => 'array',
-    ];
-
     protected $fillable = [
         'slug',
         'env',
@@ -35,5 +30,13 @@ class Settings extends Model
         return LogOptions::defaults()
             ->logFillable()
             ->logOnlyDirty();
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'fields' => 'array',
+            'settings' => 'array',
+        ];
     }
 }
