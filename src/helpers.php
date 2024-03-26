@@ -8,7 +8,7 @@ if (!function_exists('settings')) {
         ?string $key = null,
         ?string $default = null,
         ?string $env = null,
-    ): string {
+    ): mixed {
         if (!$env) {
             $env = config('app.env');
         }
