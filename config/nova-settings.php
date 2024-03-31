@@ -8,4 +8,8 @@ return [
     'types' => [
         \Stepanenko3\NovaSettings\Types\General::class,
     ],
+
+    'storage' => [],
+
+    'cache_lifetime' => 3600,
 ];
