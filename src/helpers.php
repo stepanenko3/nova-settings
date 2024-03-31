@@ -4,8 +4,6 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Config;
 
 if (!function_exists('settings')) {
-    $settingsStorage = [];
-
     function settings(
         ?string $section,
         ?string $key = null,
